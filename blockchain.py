@@ -2,30 +2,6 @@ import hashlib
 import json
 from time import time
 
-#Block and Transaction classes to hold relevant information
-class Block:
-    index = None
-    prevHash = None
-    proof = None
-    transactions = []
-
-    def __init__(self, indexIn, prevHashIn, proofIn, transactionIn):
-        self.index = indexIn
-        self.prevHash = prevHashIn
-        self.proof = proofIn
-        self.transactions = transactionIn
-
-class Transaction:
-    sender = None
-    receiver = None
-    amount = None
-
-    def __init__(self, senderIn, recipientIn, amountIn):
-        self.sender = senderIn
-        self.receiver = recipientIn
-        self.amount = amountIn
-
-
 class Blockchain(object):
     chain = []
     current_transactions = []
@@ -34,7 +10,6 @@ class Blockchain(object):
         #initializing a single block to start with
         self.new_block(previous_hash=1, proof=100)
 
-    #creates a new Block with the current transactions list, and clears the transaction list
     def new_block(self, proof, previous_hash=None):
         block = {
             'index': len(self.chain) + 1,
@@ -43,7 +18,7 @@ class Blockchain(object):
             'proof': proof,
             'previous_hash': previous_hash or self.hash(self.chain[-1]),
         }
-
+       
         # Reset the current list of transactions
         self.current_transactions = []
 
@@ -61,7 +36,6 @@ class Blockchain(object):
 
     @staticmethod
     def hash(block):
-        # We must make sure that the Dictionary is Ordered, or we'll have inconsistent hashes
         block_string = json.dumps(block, sort_keys=True).encode()
         return hashlib.sha256(block_string).hexdigest()
     
@@ -125,6 +99,11 @@ def mine():
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
+
+    # Check that the required fields are in the POST'ed data
+    required = ['sender', 'recipient', 'amount']
+    if not all(k in values for k in required):
+        return 'Missing values', 400
 
     # Create a new Transaction
     index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
