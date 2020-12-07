@@ -40,7 +40,6 @@ class Blockchain(object):
                 #     if len(i["transactions"]) != 0:
                 #         i["transactions"][0]['recipient'] = recipient
                 i["timestamp"] = time()    
-        return 'transaction does not exist',400
 
     def new_transaction(self, sender, recipient,amount):
         self.current_transactions.append({
@@ -101,11 +100,18 @@ from flask import Flask, jsonify, request, render_template
 from textwrap import dedent
 from uuid import uuid4
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='public', static_url_path='')
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 node_identifier = str(uuid4()).replace('-', '')
 
 blockchain = Blockchain()
+
+#Example code for connecting it with front-end html
+@app.route('/')
+def homepage():
+    return render_template('index.html', data = node_identifier)
+
+
 
 #TODO: Delete this before submitting, temp method to get values
 @app.route('/spend',methods=['GET'])
@@ -143,20 +149,13 @@ def mine():
     return jsonify(response), 200
 
 # TODO: error check in front-end any values missing 
-@app.route('/transactions/new', methods=['POST'])
+@app.route('/new_transaction', methods=['POST'])
 def new_transaction():
     values = request.get_json(force=True)
 
     sender = values["sender"]
     recipient = values["recipient"]
-    #Checks if sender is not the receiver
-    if sender == recipient:
-        return 'sender cannot be the recipient', 400
-
-    if "amount" in values:
-        amount = values["amount"]
-    else:
-        amount = 1
+    amount = values["amount"]
     
     #Added to take care of double spend
     #Checks that the sender has sufficient balance to even send
@@ -180,46 +179,31 @@ def full_chain():
     }
     return jsonify(response), 200
 
-import os
-import pathlib
-
-#Example code for connecting it with front-end html
-# @app.route('/')
-# def homepage():
-#     abspath = os.path.abspath(__file__)
-#     dname = os.path.dirname(abspath)
-#     os.chdir(dname)
-#     return render_template('index.html')
-
 #TODO: add error check in front-end to make sure that blockno and one other parameter is provided
 @app.route('/edit',methods=['POST'])
 def edit_chain():
     values = request.get_json(force=True)
     block_no = values['blockno']
     if block_no > len(blockchain):
-        return 'Missing value, Need at least one value to edit for any block', 400
+        return 'Block number does not exist'
     #Need to think a better way to edit transaction cases.
     # if "sender" in values:
     #     sender = values['sender']
     # else:
     #     sender = None
-    if "proof" in values:
-        proof = values['proof']
-    else:
-        proof = None
+
+    proof = values['proof']
     # if "recipient" in values:
     #     recipient = values['recipient']
     # else:
     #     recipient = None
-    output = blockchain.editchain(proof,block_no)
-    if output == None:
-        response = {
-            'chain': blockchain.chain,
-            'length': len(blockchain.chain),
-        }
-        return jsonify(response), 201
-    else:
-        output
+    blockchain.editchain(proof,block_no)
+    response = {
+        'chain': blockchain.chain,
+        'length': len(blockchain.chain),
+    }
+    return jsonify(response), 201
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080)

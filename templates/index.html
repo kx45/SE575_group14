@@ -1,0 +1,37 @@
+<head>
+    <title>Blockchain Project - Group 14</title>
+    <link rel='stylesheet' href='./css/main.css'>
+    <script type=text/javascript src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src='./js/main.js'>
+    </script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.js"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+</head>
+<body>
+    <div id="self_address" style = "text-align: center;">Your address for blockchain is: {{data}}</div>
+    <button onclick="mine()" style = "align-items: center;" id="mine">Mine a Block</button>
+    
+    <button onclick="toogle_transaction()" style = "align-items: center;" id="toggle_transaction">Make a Transaction</button>
+    <div id="make_transaction" style="visibility: hidden;">
+        <label>Sender's address:  </label><input type="text" id="sender" value={{data}} readonly>
+        <label>  Recipient's address*:  </label><input type="text" id="recipient">
+        <label>  Amount*:  </label><input type="text" id="amount" style="width: auto;">
+        
+        <button onclick="make_transaction(document.getElementById('sender').value,document.getElementById('recipient').value,document.getElementById('amount').value)">Send Transaction</button>
+    </div>
+
+    <button onclick="toogle_edit()" style = "align-items: center;" id="toggle_edit">Edit a Block</button>
+    <div id="make_edit" style="visibility: hidden;">
+        <label>Block Number:  </label><input type="text" id="blockno">
+        <label>  New Proof*:  </label><input type="text" id="proof">        
+        <button onclick="make_edit(document.getElementById('blockno').value,document.getElementById('proof').value)">Make Edit</button>
+    </div>
+
+    <button onclick="chain()" style = "align-items: center;" id="chain">List mined block</button>
+    <div id="output"></div>
+    <div id="transactions"></div>
+</body>

@@ -1,0 +1,11 @@
+body{
+	background-color: black;
+}
+*{
+	color:white;
+}
+input{
+	width:250px;
+	color:black;
+}
+button{color:black;}
