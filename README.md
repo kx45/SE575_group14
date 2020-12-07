@@ -13,19 +13,19 @@ Then, the program can be run with
 
     python blockchain.py
     
-which opens locally on port http://127.0.0.1:5000/. This can be queried using Postman or another API service at http://localhost:5000/.
+which opens locally on port http://127.0.0.1:8080/. This can be queried using Postman or another API service at http://localhost:8080/.
 
 Using an API service, the possible interactions are:
 
-    http://localhost:5000/chain
+    http://localhost:8080/chain
     
 Which uses the GET option to view the current state of the blockchain,
 
-    http://localhost:5000/mine
+    http://localhost:8080/mine
     
 Which uses the GET option to add a new block to the chain, and
 
-    http://localhost:5000/transactions/new
+    http://localhost:8080/transactions/new
     
 Which uses the POST option to record a new transaction. This also requires an entry in the body, with the form
 
