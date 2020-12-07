@@ -13,7 +13,7 @@ Then, the program can be run with
 
     python blockchain.py
     
-which opens locally on port http://127.0.0.1:5000/. This can be reached using Postman or some other API service at http://localhost:5000/.
+which opens locally on port http://127.0.0.1:5000/. This can be queried using Postman or another API service at http://localhost:5000/.
 
 Using an API service, the possible interactions are:
 
