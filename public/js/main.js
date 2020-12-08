@@ -32,29 +32,41 @@ function make_transaction(sender,recipient,amount){
         return response.json();
     }).then(function (text) {
         
-        if (text["message"] != 'Sender does not have sufficient balance to make transaction, sender has either already sent all the currency or it is in process'){
+        if(text["message"] == "Sender does not have sufficient balance to make transaction, sender has either already sent all the currency or it is in process"){
+            document.getElementById("toggle_transaction").style.visibility = "visible";
+            document.getElementById("make_transaction").style.visibility = "hidden";
+            document.getElementById("recipient").value="";
+            document.getElementById("amount").value="";
+            document.getElementById("output").innerHTML="";
+            Swal.fire({
+                type: 'error',
+                title: 'Sender does not have sufficient balance to make transaction, sender has either already sent all the currency or it is in process',
+            });
+        }
+        else{
             success = true;
             runningbal();
             document.getElementById("toggle_transaction").style.visibility = "visible";
             document.getElementById("make_transaction").style.visibility = "hidden";
             document.getElementById("recipient").value="";
             document.getElementById("amount").value="";
+            document.getElementById("output").innerHTML="";
             Swal.fire({
                 type: 'success',
                 title: text["message"],
             });
         }
-        else{
-            document.getElementById("toggle_transaction").style.visibility = "visible";
-            document.getElementById("make_transaction").style.visibility = "hidden";
-            document.getElementById("recipient").value="";
-            document.getElementById("amount").value="";
-            Swal.fire({
-                type: 'error',
-                title: 'Sender does not have sufficient balance to make transaction, sender has either already sent all the currency or it is in process',
-            });
+        // else{
+        //     document.getElementById("toggle_transaction").style.visibility = "visible";
+        //     document.getElementById("make_transaction").style.visibility = "hidden";
+        //     document.getElementById("recipient").value="";
+        //     document.getElementById("amount").value="";
+        //     Swal.fire({
+        //         type: 'error',
+        //         title: 'Sender does not have sufficient balance to make transaction, sender has either already sent all the currency or it is in process',
+        //     });
 
-        }
+        // }
     });
 }
 
@@ -93,6 +105,7 @@ function make_edit(blockno,proof){
                 document.getElementById("make_edit").style.visibility = "hidden";
                 document.getElementById("blockno").value="";
                 document.getElementById("proof").value="";
+                document.getElementById("output").innerHTML="";
                 Swal.fire({
                     type: 'error',
                     title: 'Block number does not exist!',
