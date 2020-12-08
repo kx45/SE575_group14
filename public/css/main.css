@@ -9,3 +9,7 @@ input{
 	color:black;
 }
 button{color:black;}
+table, th, td,tr {
+	border: 1px solid white;
+
+  }

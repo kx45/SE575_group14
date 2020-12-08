@@ -22,23 +22,15 @@ class Blockchain(object):
        
         # Reset the current list of transactions
         self.current_transactions = []
-
         self.chain.append(block)
         return block
     
-    #Edits a block of the chain
     #NOTE: Editing a block of chain's proof will result in wrong value of proof for all the following blocks.
     def editchain(self,proof,index):
         for i in self.chain:
             if i["index"] == index:
-                # if sender != None:
-                #     if len(i["transactions"]) != 0:
-                #         i["transactions"][0]['sender'] = sender
                 if proof != None:
                     i["proof"] = proof
-                # if recipient != None:
-                #     if len(i["transactions"]) != 0:
-                #         i["transactions"][0]['recipient'] = recipient
                 i["timestamp"] = time()    
 
     def new_transaction(self, sender, recipient,amount):
@@ -106,14 +98,10 @@ node_identifier = str(uuid4()).replace('-', '')
 
 blockchain = Blockchain()
 
-#Example code for connecting it with front-end html
 @app.route('/')
 def homepage():
     return render_template('index.html', data = node_identifier)
 
-
-
-#TODO: Delete this before submitting, temp method to get values
 @app.route('/spend',methods=['GET'])
 def getspend():
     return jsonify(blockchain.address_spend)
@@ -124,7 +112,6 @@ def mine():
     last_proof = last_block['proof']
     proof = blockchain.proof_of_work(last_proof)
 
-    # We must receive a reward for finding the proof.
     # The sender is "0" to signify that this node has mined a new coin.
     sender = "0"
     recipient = node_identifier
@@ -135,7 +122,6 @@ def mine():
         amount = 1
     )
 
-    # Forge the new Block by adding it to the chain
     previous_hash = blockchain.hash(last_block)
     block = blockchain.new_block(proof, previous_hash)
 
@@ -146,17 +132,14 @@ def mine():
         'proof': block['proof'],
         'previous_hash': block['previous_hash'],
     }
-    return jsonify(response), 200
+    return jsonify(response)
 
-# TODO: error check in front-end any values missing 
 @app.route('/new_transaction', methods=['POST'])
 def new_transaction():
     values = request.get_json(force=True)
-
     sender = values["sender"]
     recipient = values["recipient"]
-    amount = values["amount"]
-    
+    amount = int(values["amount"])
     #Added to take care of double spend
     #Checks that the sender has sufficient balance to even send
         
@@ -167,43 +150,25 @@ def new_transaction():
             amount = amount
         )
         response = {'message': f'Transaction will be added to Block {index}'}
-        return jsonify(response), 201
+        return jsonify(response)
     else:
         return 'Recipient does not have sufficient amount to make transaction, recipient has either already sent all the currency or it is in process'
 
-@app.route('/chain', methods=['GET'])
-def full_chain():
-    response = {
-        'chain': blockchain.chain,
-        'length': len(blockchain.chain),
-    }
-    return jsonify(response), 200
-
-#TODO: add error check in front-end to make sure that blockno and one other parameter is provided
 @app.route('/edit',methods=['POST'])
 def edit_chain():
     values = request.get_json(force=True)
-    block_no = values['blockno']
-    if block_no > len(blockchain):
+    block_no = int(values['blockno'])
+    if block_no > len(blockchain.chain):
         return 'Block number does not exist'
-    #Need to think a better way to edit transaction cases.
-    # if "sender" in values:
-    #     sender = values['sender']
-    # else:
-    #     sender = None
 
-    proof = values['proof']
-    # if "recipient" in values:
-    #     recipient = values['recipient']
-    # else:
-    #     recipient = None
+    proof = int(values['proof'])
+
     blockchain.editchain(proof,block_no)
     response = {
         'chain': blockchain.chain,
         'length': len(blockchain.chain),
     }
-    return jsonify(response), 201
-
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080)

@@ -12,8 +12,8 @@
 
 </head>
 <body>
-    <div id="self_address" style = "text-align: center;">Your address for blockchain is: {{data}}</div>
-    <button onclick="mine()" style = "align-items: center;" id="mine">Mine a Block</button>
+    <div id="self_address" style = "text-align: center;">Your address for blockchain is: {{data}}</div><br></br>
+    <button onclick="mine()" style = "align-items: center;" id="mine">Mine a Block</button><br></br>
     
     <button onclick="toogle_transaction()" style = "align-items: center;" id="toggle_transaction">Make a Transaction</button>
     <div id="make_transaction" style="visibility: hidden;">
@@ -22,16 +22,22 @@
         <label>  Amount*:  </label><input type="text" id="amount" style="width: auto;">
         
         <button onclick="make_transaction(document.getElementById('sender').value,document.getElementById('recipient').value,document.getElementById('amount').value)">Send Transaction</button>
-    </div>
-
+    </div><br></br>
     <button onclick="toogle_edit()" style = "align-items: center;" id="toggle_edit">Edit a Block</button>
     <div id="make_edit" style="visibility: hidden;">
         <label>Block Number:  </label><input type="text" id="blockno">
         <label>  New Proof*:  </label><input type="text" id="proof">        
         <button onclick="make_edit(document.getElementById('blockno').value,document.getElementById('proof').value)">Make Edit</button>
-    </div>
+    </div><br></br>
 
-    <button onclick="chain()" style = "align-items: center;" id="chain">List mined block</button>
-    <div id="output"></div>
-    <div id="transactions"></div>
+    <label style="width: 10px; float:left">Output:  </label><br></br>
+    <div style="width: 10px; float:left" id = "output">
+        
+        <!-- #left content in here -->
+     </div>
+     <label style="width:20%; float:right">Running Balance:  </label><br></br>
+     <div style="width:20%; float:right" id ="transactions">
+        
+        <!-- #right content in there -->
+     </div>
 </body>
