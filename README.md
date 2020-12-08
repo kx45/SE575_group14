@@ -2,36 +2,25 @@
 
 Code is based on Daniel Van Flymen's (https://github.com/dvf) "Learn Blockchains by Building One" tutorial. 
 
-Dependencies are Flask and Requests, which can be installed by
-
-    pip install flask
-and 
-
-    pip install requests
-
-Then, the program can be run with
-
-    python blockchain.py
+Dependencies are:
+    Flask v0.12.2
+    Requests v2.18.4
+    Python v3.8.6
+    Node.js v10.23.0
+    Npm v5.6.0
     
-which opens locally on port http://127.0.0.1:8080/. This can be queried using Postman or another API service at http://localhost:8080/.
+Before running the client side, you need to run the server side. To run the server-side, simply run the bloackchain.py file in either cmd or a code editor such as VS Code.
 
-Using an API service, the possible interactions are:
+If you are using cmd then change your directory to the one containing the "blockchain.py" file and then write the following command:
 
-    http://localhost:8080/chain
+    $ python3 blockchain.py
     
-Which uses the GET option to view the current state of the blockchain,
+After running the sever-side you will see a message saying:
 
-    http://localhost:8080/mine
-    
-Which uses the GET option to add a new block to the chain, and
+    * Running on http://127.0.0.1:8080/ (Press CTRL+C to quit)
 
-    http://localhost:8080/transactions/new
-    
-Which uses the POST option to record a new transaction. This also requires an entry in the body, with the form
+There are multiple ways to run the client side, the most easiest and interactive is the with a web browser. To do that, locally open the URL port on any browser (we tested on chrome):
+ 
+    http://127.0.0.1:8080/ or http://localhost:8080/
 
-    {
-      "sender": [my address],
-      "recipient" : [receiver's address],
-      "amount" : [amount to send]
-    }
-
+After opening the localhost, you can see your address. That address is unique to only you.
