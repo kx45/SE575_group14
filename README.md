@@ -14,6 +14,10 @@ Dependencies are:
     
     Npm v5.6.0
     
+To install Flask and requests, you can use the following pip command:
+
+    $ pip install Flask==0.12.2 requests==2.18.4 
+   
 Before running the client side, you need to run the server side. To run the server-side, simply run the blockchain.py file in either cmd or a code editor such as VS Code.
 
 If you are using cmd, then change your directory to the one containing the "blockchain.py" file, and then write the following command:
