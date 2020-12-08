@@ -1,6 +1,6 @@
 # SE575_group14
 
-Special thanks to Daniel Van Flymen's (https://github.com/dvf) "Learn Blockchains by Building One" tutorial. 
+Special thanks to Daniel Van Flymen (https://github.com/dvf) for his "Learn Blockchains by Building One" tutorial. 
 
 Dependencies are:
 
