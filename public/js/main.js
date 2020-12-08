@@ -10,18 +10,18 @@ function make_transaction(sender,recipient,amount){
             title: 'Sender cannot be the reciever',
           })
     }
-    if (recipient.length == 0 || !recipient.replace(/\s/g, '').length){
+    else if (recipient.length == 0 || !recipient.replace(/\s/g, '').length){
         Swal.fire({
             type: 'error',
             title: 'Invalid input for Recipient!',
         })
     }
-    if (isNaN(amount) || amount.length == 0 || !amount.replace(/\s/g, '').length){
+    else if (isNaN(amount) || amount.length == 0 || !amount.replace(/\s/g, '').length){
         Swal.fire({
             type: 'error',
             title: 'Invalid Input, Amount needs to be an integer!',
         })
-    }
+    }else{
     var obj = { sender: sender, recipient: recipient, amount: amount };
     var success= false;
     fetch('/new_transaction',{
@@ -68,6 +68,7 @@ function make_transaction(sender,recipient,amount){
 
         // }
     });
+}
 }
 
 function toogle_edit(){
