@@ -1,37 +1,31 @@
 # SE575_group14
 
-Code is based on Daniel Van Flymen's (https://github.com/dvf) "Learn Blockchains by Building One" tutorial. 
+Special thanks to Daniel Van Flymen (https://github.com/dvf) for his "Learn Blockchains by Building One" tutorial. 
 
-Dependencies are Flask and Requests, which can be installed by
+Dependencies are:
 
-    pip install flask
-and 
-
-    pip install requests
-
-Then, the program can be run with
-
-    python blockchain.py
+    Flask v0.12.2
     
-which opens locally on port http://127.0.0.1:8080/. This can be queried using Postman or another API service at http://localhost:8080/.
-
-Using an API service, the possible interactions are:
-
-    http://localhost:8080/chain
+    Requests v2.18.4
     
-Which uses the GET option to view the current state of the blockchain,
-
-    http://localhost:8080/mine
+    Python v3.8.6
     
-Which uses the GET option to add a new block to the chain, and
-
-    http://localhost:8080/transactions/new
+    Node.js v10.23.0
     
-Which uses the POST option to record a new transaction. This also requires an entry in the body, with the form
+    Npm v5.6.0
+    
+Before running the client side, you need to run the server side. To run the server-side, simply run the blockchain.py file in either cmd or a code editor such as VS Code.
 
-    {
-      "sender": [my address],
-      "recipient" : [receiver's address],
-      "amount" : [amount to send]
-    }
+If you are using cmd, then change your directory to the one containing the "blockchain.py" file, and then write the following command:
 
+    $ python3 blockchain.py
+    
+After running the sever-side you will see a message saying:
+
+    * Running on http://127.0.0.1:8080/ (Press CTRL+C to quit)
+
+There are multiple ways to run the client side, the most easiest and interactive is the with a web browser. To do that, locally open the URL port on any browser (we tested on chrome):
+ 
+    http://127.0.0.1:8080/ or http://localhost:8080/
+
+After opening the localhost, you can see your address. That address is unique to only you.
