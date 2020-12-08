@@ -31,17 +31,30 @@ function make_transaction(sender,recipient,amount){
     .then(function (response) {
         return response.json();
     }).then(function (text) {
-        console.log('POST response text:');
-        success = true;
-        if (success==true){
+        
+        if (text["message"] != 'Sender does not have sufficient balance to make transaction, sender has either already sent all the currency or it is in process'){
+            success = true;
             runningbal();
             document.getElementById("toggle_transaction").style.visibility = "visible";
             document.getElementById("make_transaction").style.visibility = "hidden";
+            document.getElementById("recipient").value="";
+            document.getElementById("amount").value="";
+            Swal.fire({
+                type: 'success',
+                title: text["message"],
+            });
         }
-        Swal.fire({
-            type: 'success',
-            title: text["message"],
-        })
+        else{
+            document.getElementById("toggle_transaction").style.visibility = "visible";
+            document.getElementById("make_transaction").style.visibility = "hidden";
+            document.getElementById("recipient").value="";
+            document.getElementById("amount").value="";
+            Swal.fire({
+                type: 'error',
+                title: 'Sender does not have sufficient balance to make transaction, sender has either already sent all the currency or it is in process',
+            });
+
+        }
     });
 }
 
@@ -57,41 +70,59 @@ function make_edit(blockno,proof){
             title: 'Invalid input for Block Number! (Needs to be an integer)',
         })
     }
-    if (isNaN(proof) || proof.length == 0 || !proof.replace(/\s/g, '').length){
+    else if (isNaN(proof) || proof.length == 0 || !proof.replace(/\s/g, '').length){
         Swal.fire({
             type: 'error',
             title: 'Invalid input for Proof! (Needs to be an integer)',
         })
     }
-
-    var obj = { blockno: blockno, proof: proof};
-    var data;
-    var success= false;
-    fetch(`/edit`,{
-        method: 'POST',
-        body: JSON.stringify(obj)
-    })
-    .then(function (response) {
-        return response.text();
-    }).then(function (text) {
-        data = text; 
-        if (data == "Block number does not exist!"){
-            Swal.fire({
-                type: 'error',
-                title: 'Block number does not exist!',
-            })
-        }
-        else{
-            success = true;
-            document.getElementById("output").innerHTML = text;
-            if (success==true){
+    else{
+        var obj = { blockno: blockno, proof: proof};
+        var data;
+        var success= false;
+        fetch(`/edit`,{
+            method: 'POST',
+            body: JSON.stringify(obj)
+        })
+        .then(function (response) {
+            return response.text();
+        }).then(function (text) {
+            data = text; 
+            if (text == "Block number does not exist!"){
                 document.getElementById("toggle_edit").style.visibility = "visible";
                 document.getElementById("make_edit").style.visibility = "hidden";
+                document.getElementById("blockno").value="";
+                document.getElementById("proof").value="";
+                Swal.fire({
+                    type: 'error',
+                    title: 'Block number does not exist!',
+                })
             }
-        }
-    });
-    
-
+            if (text == "Invalid input for Proof! (Needs to be an integer)"){
+                document.getElementById("toggle_edit").style.visibility = "visible";
+                document.getElementById("make_edit").style.visibility = "hidden";
+                document.getElementById("blockno").value="";
+                document.getElementById("proof").value="";
+                Swal.fire({
+                    type: 'error',
+                    title: 'Invalid input for Proof! (Needs to be an integer)',
+                })
+            }
+            else{
+                success = true;
+                console.log("SSS");
+                document.getElementById("output").innerHTML = text;
+                if (success==true){
+                    document.getElementById("toggle_edit").style.visibility = "visible";
+                    document.getElementById("make_edit").style.visibility = "hidden";
+                    document.getElementById("blockno").value="";
+                    document.getElementById("proof").value="";
+                }
+            }
+            
+        
+        });
+    }
 }
 
 function mine(){

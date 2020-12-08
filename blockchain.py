@@ -152,7 +152,8 @@ def new_transaction():
         response = {'message': f'Transaction will be added to Block {index}'}
         return jsonify(response)
     else:
-        return 'Recipient does not have sufficient amount to make transaction, recipient has either already sent all the currency or it is in process'
+        response = {'message': 'Sender does not have sufficient balance to make transaction, sender has either already sent all the currency or it is in process'}
+        return jsonify(response)
 
 @app.route('/edit',methods=['POST'])
 def edit_chain():
