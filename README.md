@@ -4,9 +4,13 @@ Code is based on Daniel Van Flymen's (https://github.com/dvf) "Learn Blockchains
 
 Dependencies are:
     Flask v0.12.2
+    
     Requests v2.18.4
+    
     Python v3.8.6
+    
     Node.js v10.23.0
+    
     Npm v5.6.0
     
 Before running the client side, you need to run the server side. To run the server-side, simply run the bloackchain.py file in either cmd or a code editor such as VS Code.
